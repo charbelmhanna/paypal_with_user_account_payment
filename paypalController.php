@@ -18,10 +18,10 @@ class PayPalController extends Controller
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
         $headers = array(
-            "Accept: application/json",
-            "Accept-Language: en_US",
-            "Content-Type: application/x-www-form-urlencoded",
-            "Authorization:" . $authorizationEncoded,
+        "Accept: application/json",
+        "Accept-Language: en_US",
+        "Content-Type: application/x-www-form-urlencoded",
+        "Authorization:" . $authorizationEncoded,
         );
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
@@ -43,7 +43,7 @@ class PayPalController extends Controller
         $emailOrMerchant = $supplier->payee_id ? 'merchant_id' : 'email_address';
         $access_token = $resp->access_token;
 
-       
+
 
 
 
@@ -63,34 +63,34 @@ class PayPalController extends Controller
 
 
         $headers = array(
-            "Content-Type: application/json",
-            "Authorization: Bearer " . $access_token,
+        "Content-Type: application/json",
+        "Authorization: Bearer " . $access_token,
         );
         curl_setopt($curl2, CURLOPT_HTTPHEADER, $headers);
 
 
         $data = array (
-            'intent' => 'CAPTURE',
-            'purchase_units' =>
-                array (
-                    0 =>
-                        array (
-                            'amount' =>
-                                array (
-                                    'currency_code' => 'USD',
-                                    'value' => $total,
-                                ),
-                            'payee' =>
-                                array (
-                                    $emailOrMerchant => $merchant_id,
-                                ),
-                        ),
-                ),
-            'application_context' =>
-                array (
-                    'return_url' => route('success.payment'),
-                    'cancel_url' => route('cancel.payment'),
-                ),
+        'intent' => 'CAPTURE',
+        'purchase_units' =>
+        array (
+        0 =>
+        array (
+        'amount' =>
+        array (
+        'currency_code' => 'USD',
+        'value' => $total,
+        ),
+        'payee' =>
+        array (
+        $emailOrMerchant => $merchant_id,
+        ),
+        ),
+        ),
+        'application_context' =>
+        array (
+        'return_url' => route('success.payment'),
+        'cancel_url' => route('cancel.payment'),
+        ),
         );
 
 
@@ -104,20 +104,20 @@ class PayPalController extends Controller
         curl_close($curl2);
 
         $resp = json_decode($resp);
-   
+
 
 
 
 
 
         return redirect($resp->links[1]->href);
-             }
+    }
 
 
 
 
 
-public function paymentSuccess(Request $request)
+    public function paymentSuccess(Request $request)
     {
 
         $cart = [your session];
@@ -141,8 +141,8 @@ public function paymentSuccess(Request $request)
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
             $headers = array([your session]'access_token'),
-                "content-type: application/json",
-                "Content-Length: 0",
+            "content-type: application/json",
+            "Content-Length: 0",
             );
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
@@ -157,16 +157,14 @@ public function paymentSuccess(Request $request)
 
 
             if ($resp->status === 'COMPLETED') {
-                    
 
-                    your code here if response is completed
-                    if ou want to update your the order to complete or redirect user to payment success
 
-                }
+                your code here if response is completed
+                if ou want to update your the order to complete or redirect user to payment success
 
                 $notification = array(
-                    'message' => 'Your order is placed successfully !!!',
-                    'alert-type' => 'success'
+                'message' => 'Your order is placed successfully !!!',
+                'alert-type' => 'success'
                 );
                 return redirect()->route('payment.success')->with($notification);
             }
@@ -174,6 +172,4 @@ public function paymentSuccess(Request $request)
         }
         return redirect()->route('payment.error');
     }
-        }
-
-
+}
