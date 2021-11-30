@@ -43,7 +43,7 @@ class PayPalController extends Controller
         $emailOrMerchant = $supplier->payee_id ? 'merchant_id' : 'email_address';
         $access_token = $resp->access_token;
 
-        session(['access_token' => $access_token]);
+       
 
 
 
@@ -112,4 +112,68 @@ class PayPalController extends Controller
 
         return redirect($resp->links[1]->href);
              }
+
+
+
+
+
+public function paymentSuccess(Request $request)
+    {
+
+        $cart = [your session];
+
+        if($cart){
+
+            if(session()->has([your session]) === false){
+                return redirect()->route('payment.error');
+            }
+
+            if(env('PAYPAL_MODE') === 'sandbox'){
+                $url = "https://api.sandbox.paypal.com/v2/checkout/orders/".$request->token."/capture";
+            }else{
+                $url = "https://api.paypal.com/v2/checkout/orders/.$request->token./capture";
+            }
+
+
+            $curl = curl_init($url);
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+            $headers = array([your session]'access_token'),
+                "content-type: application/json",
+                "Content-Length: 0",
+            );
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+            $resp = curl_exec($curl);
+            curl_close($curl);
+
+            $resp = json_decode($resp);
+
+
+
+
+            if ($resp->status === 'COMPLETED') {
+                    
+
+                    your code here if response is completed
+                    if ou want to update your the order to complete or redirect user to payment success
+
+                }
+
+                $notification = array(
+                    'message' => 'Your order is placed successfully !!!',
+                    'alert-type' => 'success'
+                );
+                return redirect()->route('payment.success')->with($notification);
+            }
+            return redirect()->route('payment.error');
         }
+        return redirect()->route('payment.error');
+    }
+        }
+
+
