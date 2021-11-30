@@ -1,22 +1,22 @@
 @if(env('PAYPAL_MODE') === 'sandbox')
- <a class="ps-btn" href="https://www.sandbox.paypal.com/connect?flowEntry=static&client_id=yourid&scope=openid%20profile%20email%20https://uri.paypal.com/services/paypalattributes&redirect_uri=redirectURL"><i class="fa fa-paypal" aria-hidden="true"></i> Login with Paypal Sandbox</a>
+<a class="ps-btn" href="https://www.sandbox.paypal.com/connect?flowEntry=static&client_id=yourid&scope=openid%20profile%20email%20https://uri.paypal.com/services/paypalattributes&redirect_uri=redirectURL"><i class="fa fa-paypal" aria-hidden="true"></i> Login with Paypal Sandbox</a>
 @else
-                                            <script src='https://www.paypalobjects.com/js/external/api.js'></script>
-                                            <span id='lippButton'></span>
-                                            <script>
-                                                paypal.use( ['login'], function (login) {
-                                                    login.render ({
-                                                        "appid":"yourapplicationID",
-                                                        "scopes":"openid%20profile%20email%20https://uri.paypal.com/services/paypalattributes",
-                                                        "containerid":"lippButton",
-                                                        "responseType":"code",
-                                                        "locale":"en-us",
-                                                        "buttonType":"LWP",
-                                                        "buttonShape":"pill",
-                                                        "buttonSize":"lg",
-                                                        "fullPage":"true",
-                                                        "returnurl":"redirectURL"
-                                                    });
-                                                });
-                                            </script>
-                                        @endif
+<script src='https://www.paypalobjects.com/js/external/api.js'></script>
+<span id='lippButton'></span>
+<script>
+    paypal.use( ['login'], function (login) {
+        login.render ({
+            "appid":"yourapplicationID",
+            "scopes":"openid%20profile%20email%20https://uri.paypal.com/services/paypalattributes",
+            "containerid":"lippButton",
+            "responseType":"code",
+            "locale":"en-us",
+            "buttonType":"LWP",
+            "buttonShape":"pill",
+            "buttonSize":"lg",
+            "fullPage":"true",
+            "returnurl":"redirectURL"
+        });
+    });
+</script>
+@endif
